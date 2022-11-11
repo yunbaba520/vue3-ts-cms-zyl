@@ -12,7 +12,7 @@ import LoginArea from './cpns/login-area.vue'
 .login {
   width: 100vw;
   height: 100vh;
-  background-color: #eeffff;
+  background-color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;

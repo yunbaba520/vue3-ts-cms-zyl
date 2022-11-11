@@ -9,7 +9,7 @@
             <span class="text">账号登录</span>
           </span>
         </template>
-        <form-account></form-account>
+        <form-account ref="refFormAccount"></form-account>
       </el-tab-pane>
       <el-tab-pane name="phone">
         <template #label>
@@ -32,13 +32,21 @@
 </template>
 
 <script setup lang="ts">
+import type { Instance } from 'element-plus'
 import { ref } from 'vue'
 import FormAccount from './form-account.vue'
 import FormPhone from './form-phone.vue'
+
 const isRemember = ref(false)
 const tabSelect = ref('account')
+const refFormAccount = ref<InstanceType<typeof FormAccount>>()
 function handlerSubmit() {
-  console.log(tabSelect)
+  if (tabSelect.value === 'account') {
+    refFormAccount.value?.submit()
+  } else {
+    console.log("手机");
+
+  }
 }
 </script>
 
