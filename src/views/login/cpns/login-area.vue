@@ -46,8 +46,7 @@ function handlerSubmit() {
   if (tabSelect.value === 'account') {
     refFormAccount.value?.submit()
   } else {
-    console.log("手机");
-
+    console.log('手机')
   }
 }
 </script>
