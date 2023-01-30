@@ -1,3 +1,4 @@
+import { localCache } from '@/utils/cache';
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({
@@ -5,7 +6,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/home'
     },
     {
       path: '/home',
@@ -21,5 +22,12 @@ const router = createRouter({
     }
   ]
 })
-
+// 导航守卫
+router.beforeEach((to, from) => {
+  const token = localCache.getCache('login/token')
+  // 去其他页面并且没有token
+  if (to.path !== '/login' && !token) {
+    return '/login'
+  }
+})
 export default router
