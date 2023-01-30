@@ -13,14 +13,16 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import type { FormInstance } from "element-plus";
+import type { FormInstance,FormRules } from "element-plus";
 import {ElMessage} from "element-plus"
+import useLogin from "@/stores/login/login";
+const loginStore = useLogin()
 const accountForm = reactive({
-  account: '',
-  password: ''
+  account: 'coderwhy',
+  password: '123456'
 })
 const formRef = ref<FormInstance>()
-const rules = {
+const rules: FormRules = {
   account: [
     { required: true, message: '必须输入账号~', trigger: 'blur' },
     { pattern: /^[a-z0-9]{6,20}$/, message: '必须是6~20个字母或数字', trigger: 'blur' }
@@ -31,15 +33,14 @@ const rules = {
   ]
 }
 function submit() {
-  console.log(accountForm.account);
-  console.log(accountForm.password);
   formRef.value?.validate((valid, fields) => {
     if (valid) {
-      console.log('submit!')
-      console.log(accountForm);
-
+      const name = accountForm.account
+      const password = accountForm.password
+      // 进行登录逻辑
+      loginStore.loginAction({ name, password })
     } else {
-      ElMessage.error('Oops, this is a error message.')
+      ElMessage.error('请规范填写账号密码~')
     }
   })
 }
@@ -50,6 +51,6 @@ defineExpose({
 </script>
 
 <style scoped lang="less">
-.form-account {
-}
+// .form-account {
+// }
 </style>

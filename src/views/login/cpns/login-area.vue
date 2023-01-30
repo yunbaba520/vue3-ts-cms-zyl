@@ -32,13 +32,15 @@
 </template>
 
 <script setup lang="ts">
-import type { Instance } from 'element-plus'
 import { ref } from 'vue'
 import FormAccount from './form-account.vue'
 import FormPhone from './form-phone.vue'
 
 const isRemember = ref(false)
 const tabSelect = ref('account')
+// FormAccount是一个对象，当成类来使用，ref<FormAccount>不能这样用，需要 ref<InstanceType<typeof FormAccount>>()
+// InstanceType需要传入一个构造器，返回构造器创建对象的类型
+// typeof FormAccount结果是一个构造器
 const refFormAccount = ref<InstanceType<typeof FormAccount>>()
 function handlerSubmit() {
   if (tabSelect.value === 'account') {

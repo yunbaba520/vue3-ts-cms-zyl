@@ -14,6 +14,6 @@
 <script setup lang="ts"></script>
 
 <style scoped lang="less">
-.form-phone {
-}
+// .form-phone {
+// }
 </style>
