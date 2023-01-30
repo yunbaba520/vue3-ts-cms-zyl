@@ -1,3 +1,4 @@
+import { localCache } from '@/utils/cache';
 import { BASE_URL, TIME_OUT } from './config'
 import GSRequest from './request'
 // 根据不同配置创建不同axios实例
@@ -6,7 +7,10 @@ const gsRequest = new GSRequest({
   timeout: TIME_OUT,
   interceptors: {
     requestSuccessFn(config) {
-      // console.log("个别axios instance请求成功拦截");
+      const token = localCache.getCache('login/token')
+      if (config.headers && token) {
+        config.headers.Authorization = 'Bearer ' + token
+      }
       return config
     },
     requestFailureFn(err) {
