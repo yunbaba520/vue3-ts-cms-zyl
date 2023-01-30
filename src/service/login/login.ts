@@ -13,3 +13,9 @@ export function getUserInfoById(id: number) {
     url: `/users/${id}`
   })
 }
+// 根据id获取用户菜单
+export function getUserMenuById(id: number) {
+  return gsRequest.get({
+    url: `/role/${id}/menu`
+  })
+}
