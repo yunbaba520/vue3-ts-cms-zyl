@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { requestLogin } from "@/service/login/login";
+import type { ILoginAccount } from "@/types";
 const useLogin = defineStore('login', {
   state: () => ({
     id: '',
@@ -8,7 +9,7 @@ const useLogin = defineStore('login', {
   }),
   actions: {
     // 登录
-    async loginAction(params: any) {
+    async loginAction(params: ILoginAccount) {
       const res = await requestLogin(params)
       this.id = res.data.id
       this.name = res.data.name

@@ -6,8 +6,8 @@
       :rules="rules"
       ref="formRef"
     >
-      <el-form-item label="账号" prop="account">
-        <el-input v-model="accountForm.account" />
+      <el-form-item label="账号" prop="name">
+        <el-input v-model="accountForm.name" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
         <el-input v-model="accountForm.password" />
@@ -19,16 +19,18 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
+import type { ILoginAccount } from '@/types'
 import { ElMessage } from 'element-plus'
 import useLogin from '@/stores/login/login'
-const loginStore = useLogin()
-const accountForm = reactive({
-  account: 'coderwhy',
+
+// 数据
+const accountForm = reactive<ILoginAccount>({
+  name: 'coderwhy',
   password: '123456'
 })
-const formRef = ref<FormInstance>()
+// 规则
 const rules: FormRules = {
-  account: [
+  name: [
     { required: true, message: '必须输入账号~', trigger: 'blur' },
     {
       pattern: /^[a-z0-9]{6,20}$/,
@@ -41,10 +43,13 @@ const rules: FormRules = {
     { pattern: /^[a-z0-9]{3,}$/, message: '密码必须在3位以上', trigger: 'blur' }
   ]
 }
+// 登录逻辑
+const loginStore = useLogin()
+const formRef = ref<FormInstance>()
 function submit() {
   formRef.value?.validate((valid, fields) => {
     if (valid) {
-      const name = accountForm.account
+      const name = accountForm.name
       const password = accountForm.password
       // 进行登录逻辑
       loginStore.loginAction({ name, password })
