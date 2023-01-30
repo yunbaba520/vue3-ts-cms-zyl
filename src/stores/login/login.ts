@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
 import { requestLogin } from "@/service/login/login";
 import type { ILoginAccount } from "@/types";
+import { localCache } from "@/utils/cache";
 const useLogin = defineStore('login', {
   state: () => ({
     id: '',
     name: '',
-    token: ''
+    token: localCache.getCache('login/token') || ''
   }),
   actions: {
     // 登录
@@ -14,6 +15,8 @@ const useLogin = defineStore('login', {
       this.id = res.data.id
       this.name = res.data.name
       this.token = res.data.token
+      // 保存本地
+      localCache.setCache('login/token', this.token)
     }
   }
 })
