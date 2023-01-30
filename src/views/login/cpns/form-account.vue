@@ -22,11 +22,12 @@ import type { FormInstance, FormRules } from 'element-plus'
 import type { ILoginAccount } from '@/types'
 import { ElMessage } from 'element-plus'
 import useLogin from '@/stores/login/login'
+import { localCache } from '@/utils/cache'
 
 // 数据
 const accountForm = reactive<ILoginAccount>({
-  name: 'coderwhy',
-  password: '123456'
+  name: localCache.getCache('login/name') ?? '',
+  password: localCache.getCache('login/password') ?? ''
 })
 // 规则
 const rules: FormRules = {
@@ -46,13 +47,27 @@ const rules: FormRules = {
 // 登录逻辑
 const loginStore = useLogin()
 const formRef = ref<FormInstance>()
-function submit() {
+function submit(isRemember: boolean) {
   formRef.value?.validate((valid, fields) => {
     if (valid) {
       const name = accountForm.name
       const password = accountForm.password
       // 进行登录逻辑
-      loginStore.loginAction({ name, password })
+      loginStore.loginAction({ name, password }).then(()=>{
+        // 表示登录成功
+        // 记住账号密码
+        if(isRemember) {
+          // 记住密码
+          localCache.setCache('login/name',name)
+          localCache.setCache('login/password',password)
+          localCache.setCache('login/isRemember',isRemember)
+        } else {
+          // 不记住密码
+          localCache.removeCache('login/name')
+          localCache.removeCache('login/password')
+          localCache.removeCache('login/isRemember')
+        }
+      })
     } else {
       ElMessage.error('请规范填写账号密码~')
     }

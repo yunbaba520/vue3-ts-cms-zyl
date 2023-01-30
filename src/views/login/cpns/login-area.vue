@@ -32,11 +32,13 @@
 </template>
 
 <script setup lang="ts">
+import { localCache } from '@/utils/cache';
 import { ref } from 'vue'
 import FormAccount from './form-account.vue'
 import FormPhone from './form-phone.vue'
 
-const isRemember = ref(false)
+const isRemember = ref<boolean>(localCache.getCache('login/isRemember') ?? false)
+
 const tabSelect = ref('account')
 // FormAccount是一个对象，当成类来使用，ref<FormAccount>不能这样用，需要 ref<InstanceType<typeof FormAccount>>()
 // InstanceType需要传入一个构造器，返回构造器创建对象的类型
@@ -44,7 +46,7 @@ const tabSelect = ref('account')
 const refFormAccount = ref<InstanceType<typeof FormAccount>>()
 function handlerSubmit() {
   if (tabSelect.value === 'account') {
-    refFormAccount.value?.submit()
+    refFormAccount.value?.submit(isRemember.value)
   } else {
     console.log('手机')
   }
