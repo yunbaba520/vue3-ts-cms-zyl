@@ -32,12 +32,14 @@
 </template>
 
 <script setup lang="ts">
-import { localCache } from '@/utils/cache';
+import { localCache } from '@/utils/cache'
 import { ref } from 'vue'
 import FormAccount from './form-account.vue'
 import FormPhone from './form-phone.vue'
 
-const isRemember = ref<boolean>(localCache.getCache('login/isRemember') ?? false)
+const isRemember = ref<boolean>(
+  localCache.getCache('login/isRemember') ?? false
+)
 
 const tabSelect = ref('account')
 // FormAccount是一个对象，当成类来使用，ref<FormAccount>不能这样用，需要 ref<InstanceType<typeof FormAccount>>()

@@ -2,9 +2,11 @@
   <div class="nav-aside">
     <div class="aside-top">
       <img src="@/assets/img/logo.svg" alt="" />
-      <span>ZY后台管理项目</span>
+      <span v-show="!sideIsFold">ZY后台管理项目</span>
     </div>
     <el-menu
+      :collapse="sideIsFold"
+      unique-opened
       text-color="#b7bdc3"
       active-text-color="#fff"
       background-color="#001529"
@@ -12,11 +14,15 @@
       <template v-for="item in userMenu" :key="item.id">
         <el-sub-menu :index="item.id + ''">
           <template #title>
-            <el-icon><location /></el-icon>
+            <el-icon>
+              <component :is="item.icon.split('-icon-')[1]"></component>
+            </el-icon>
             <span>{{ item.name }}</span>
           </template>
           <template v-for="subItem in item.children" :key="subItem.id">
-            <el-menu-item :index="subItem.id + ''">{{ subItem.name }}</el-menu-item>
+            <el-menu-item :index="subItem.id + ''">{{
+              subItem.name
+            }}</el-menu-item>
           </template>
         </el-sub-menu>
       </template>
@@ -25,12 +31,16 @@
 </template>
 
 <script lang="ts" setup>
-import useLoginStore from "@/stores/login/login";
+import useLoginStore from '@/stores/login/login'
+defineProps({
+  sideIsFold: {
+    type: Boolean,
+    default: false
+  }
+})
 // 菜单数据
 const loginStore = useLoginStore()
 const userMenu = loginStore.userMenu
-console.log(userMenu);
-
 </script>
 
 <style lang="less" scoped>
@@ -49,6 +59,7 @@ console.log(userMenu);
       font-size: 16px;
       font-weight: 700;
       color: white;
+      white-space: nowrap;
     }
   }
   .el-menu {
@@ -69,6 +80,5 @@ console.log(userMenu);
       }
     }
   }
-
 }
 </style>

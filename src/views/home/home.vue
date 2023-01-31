@@ -1,12 +1,12 @@
 <template>
   <div class="home">
     <el-container class="home-area">
-      <el-aside width="210px" class="aside-area">
-        <nav-aside></nav-aside>
+      <el-aside :width="isFold ? '60px' : '210px'" class="aside-area">
+        <nav-aside :sideIsFold="isFold"></nav-aside>
       </el-aside>
       <el-container>
         <el-header height="50px" class="header-area">
-          <nav-header></nav-header>
+          <nav-header @is-fold-change="handlerIsFoldChange"></nav-header>
         </el-header>
         <el-main class="main-area">Main</el-main>
       </el-container>
@@ -15,7 +15,13 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
 // nav-aside , nav-header在components.d.ts中注册
+const isFold = ref(false)
+function handlerIsFoldChange(value: boolean) {
+  isFold.value = value
+}
 </script>
 
 <style lang="less" scoped>
@@ -31,13 +37,10 @@
       background-color: #001529;
       scrollbar-width: none; /* firefox */
       -ms-overflow-style: none; /* IE 10+ */
-
       &::-webkit-scrollbar {
         display: none;
       }
-    }
-    .header-area {
-      background-color: pink;
+      transition: width 0.4s ease;
     }
     .main-area {
       background-color: #f0f2f5;
