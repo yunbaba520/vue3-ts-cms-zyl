@@ -4,7 +4,7 @@ export const TIME_OUT = 10000
 // import.meta.env是vite默认提供的环境变量
 // 1.区分开发与生产环境import.meta.env
 if (import.meta.env.MODE === 'production') {
-  BASE_URL = ''
+  BASE_URL = 'http://152.136.185.210:5000'
 } else {
   BASE_URL = 'http://152.136.185.210:5000'
 }
