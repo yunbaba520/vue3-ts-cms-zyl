@@ -11,9 +11,9 @@ interface ILoginState {
 }
 const useLogin = defineStore('login', {
   state: (): ILoginState => ({
-    token: localCache.getCache('login/token') || '',
-    userInfo: {},
-    userMenu: []
+    token: localCache.getCache('login/token') ?? '',
+    userInfo: localCache.getCache('user/info') ?? {},
+    userMenu: localCache.getCache('user/menu') ?? []
   }),
   actions: {
     // 登录
@@ -26,10 +26,12 @@ const useLogin = defineStore('login', {
       // 获取用户详细信息(权限)
       const userInfoRes = await getUserInfoById(id)
       this.userInfo = userInfoRes.data
+      localCache.setCache('user/info',userInfoRes.data)
       const roleId = this.userInfo.role.id
       // 获取用户菜单
       const userMenuRes = await getUserMenuById(roleId)
       this.userMenu = userMenuRes.data
+      localCache.setCache('user/menu',userMenuRes.data)
       // 跳转home页
       router.push('/home')
     }

@@ -26,7 +26,15 @@
     height: 100%;
     .aside-area {
       height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
       background-color: #001529;
+      scrollbar-width: none; /* firefox */
+      -ms-overflow-style: none; /* IE 10+ */
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
     .header-area {
       background-color: pink;
