@@ -1,9 +1,15 @@
 <template>
   <div class="nav-header">
-    <div class="left-area" @click="handlerLeftIconClick">
-      <el-icon size="28px">
+    <div class="left-area">
+      <el-icon size="28px" @click="handlerLeftIconClick">
         <component :is="isFold ? 'expand' : 'fold'"></component>
       </el-icon>
+      <el-breadcrumb separator="/">
+        <template v-for="item in breadcrumbArr" :key="item.name">
+          <!-- :to="item.path" 这个暂时不需要-->
+          <el-breadcrumb-item>{{ item.name }}</el-breadcrumb-item>
+        </template>
+      </el-breadcrumb>
     </div>
     <div class="right-area">
       <div class="icons">
@@ -36,8 +42,10 @@
 <script setup lang="ts">
 import router from '@/router'
 import { localCache } from '@/utils/cache'
-import { ref } from 'vue'
+import { mapPathToBreadcrumbs } from '@/utils/mapMenus'
+import { ref, computed } from 'vue'
 import useLoginStore from '@/stores/login/login'
+import { useRoute } from 'vue-router'
 const emit = defineEmits(['isFoldChange'])
 // 侧边栏展开折叠
 const isFold = ref(false)
@@ -45,6 +53,18 @@ function handlerLeftIconClick() {
   isFold.value = !isFold.value
   emit('isFoldChange', isFold.value)
 }
+// 用户信息
+const loginStore = useLoginStore()
+const name = loginStore.userInfo.name
+// 面包屑
+
+const breadcrumbArr = computed(() => {
+  const route = useRoute()
+  const menus = loginStore.userMenu
+  return mapPathToBreadcrumbs(menus, route.path)
+})
+console.log(breadcrumbArr)
+
 // 退出
 function handlerExit() {
   localCache.removeCache('login/token')
@@ -52,9 +72,6 @@ function handlerExit() {
   localCache.removeCache('user/info')
   router.push('/login')
 }
-// 用户信息
-const loginStore = useLoginStore()
-const name = loginStore.userInfo.name
 </script>
 
 <style lang="less" scoped>
@@ -63,6 +80,16 @@ const name = loginStore.userInfo.name
   display: flex;
   justify-content: space-between;
   align-items: center;
+  .left-area {
+    display: flex;
+    align-items: center;
+    .el-icon {
+      cursor: pointer;
+    }
+    .el-breadcrumb {
+      margin-left: 20px;
+    }
+  }
   .right-area {
     display: flex;
     align-items: center;
