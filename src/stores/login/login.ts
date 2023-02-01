@@ -32,8 +32,18 @@ const useLogin = defineStore('login', {
       const userMenuRes = await getUserMenuById(roleId)
       this.userMenu = userMenuRes.data
       localCache.setCache('user/menu',userMenuRes.data)
+      // 动态注册路由
+      // 1.获取全部路由
+      const modules = import.meta.glob('@/router/main/**/*.ts', { eager: true })
+      console.log(modules);
+      // 2.根据用户菜单动态注册路由
+      for (const menu in userMenuRes.data) {
+        // for (const submenu in menu) {
+
+        // }
+      }
       // 跳转main页
-      router.push('/main')
+      // router.push('/main')
     }
   }
 })
