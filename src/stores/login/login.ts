@@ -1,12 +1,16 @@
-import { defineStore } from "pinia";
-import { getUserInfoById, getUserMenuById, requestLogin } from "@/service/login/login";
-import type { ILoginAccount } from "@/types";
-import { localCache } from "@/utils/cache";
-import router from "@/router";
+import { defineStore } from 'pinia'
+import {
+  getUserInfoById,
+  getUserMenuById,
+  requestLogin
+} from '@/service/login/login'
+import type { ILoginAccount } from '@/types'
+import { localCache } from '@/utils/cache'
+import router, { addRoutesWithMenu } from '@/router'
 
 interface ILoginState {
-  token: string,
-  userInfo: any,
+  token: string
+  userInfo: any
   userMenu: any
 }
 const useLogin = defineStore('login', {
@@ -26,24 +30,17 @@ const useLogin = defineStore('login', {
       // 获取用户详细信息(权限)
       const userInfoRes = await getUserInfoById(id)
       this.userInfo = userInfoRes.data
-      localCache.setCache('user/info',userInfoRes.data)
+      localCache.setCache('user/info', userInfoRes.data)
       const roleId = this.userInfo.role.id
       // 获取用户菜单
       const userMenuRes = await getUserMenuById(roleId)
       this.userMenu = userMenuRes.data
-      localCache.setCache('user/menu',userMenuRes.data)
+      localCache.setCache('user/menu', userMenuRes.data)
       // 动态注册路由
-      // 1.获取全部路由
-      const modules = import.meta.glob('@/router/main/**/*.ts', { eager: true })
-      console.log(modules);
-      // 2.根据用户菜单动态注册路由
-      for (const menu in userMenuRes.data) {
-        // for (const submenu in menu) {
+      addRoutesWithMenu(userMenuRes.data)
 
-        // }
-      }
       // 跳转main页
-      // router.push('/main')
+      router.push('/main')
     }
   }
 })

@@ -1,4 +1,5 @@
-import { localCache } from '@/utils/cache';
+import { localCache } from '@/utils/cache'
+import { mapMenuToRoutes } from '@/utils/mapMenus'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({
@@ -10,10 +11,12 @@ const router = createRouter({
     },
     {
       path: '/main',
+      name: 'main',
       component: () => import('../views/main/main.vue')
     },
     {
       path: '/login',
+      name: 'login',
       component: () => import('../views/login/login.vue')
     },
     {
@@ -23,7 +26,7 @@ const router = createRouter({
   ]
 })
 // 导航守卫
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
   const token = localCache.getCache('login/token')
   // 去其他页面并且没有token
   if (to.path !== '/login' && !token) {
@@ -36,4 +39,15 @@ router.beforeEach((to, from) => {
 // 弊端：比较死板，新增一个角色的话需要修改前端代码，新增一个key value,也可以后端返回json，对后端要求高，不好组织代码
 // 2. 根据菜单动态加载
 // 我们在登录后有拿到usermenus 映射成路由对象
+
+export function addRoutesWithMenu(menus: any) {
+  // 1.获取匹配到的所有的路由
+  const routes = mapMenuToRoutes(menus)
+  // 2.动态添加到router中
+  console.log(routes)
+
+  for (const route of routes) {
+    router.addRoute('main', route)
+  }
+}
 export default router

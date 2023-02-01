@@ -20,9 +20,11 @@
             <span>{{ item.name }}</span>
           </template>
           <template v-for="subItem in item.children" :key="subItem.id">
-            <el-menu-item :index="subItem.id + ''">{{
-              subItem.name
-            }}</el-menu-item>
+            <el-menu-item
+              :index="subItem.id + ''"
+              @click="handlerMenuJump(subItem)"
+              >{{ subItem.name }}</el-menu-item
+            >
           </template>
         </el-sub-menu>
       </template>
@@ -32,6 +34,7 @@
 
 <script lang="ts" setup>
 import useLoginStore from '@/stores/login/login'
+import { useRoute, useRouter } from 'vue-router'
 defineProps({
   sideIsFold: {
     type: Boolean,
@@ -41,6 +44,11 @@ defineProps({
 // 菜单数据
 const loginStore = useLoginStore()
 const userMenu = loginStore.userMenu
+// 点击菜单跳转
+const route = useRouter()
+function handlerMenuJump(subItem: any) {
+  route.push(subItem.url)
+}
 </script>
 
 <style lang="less" scoped>
