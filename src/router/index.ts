@@ -1,5 +1,5 @@
 import { localCache } from '@/utils/cache'
-import { mapMenuToRoutes } from '@/utils/mapMenus'
+import { firstRoute, mapMenuToRoutes } from '@/utils/mapMenus'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({
@@ -32,6 +32,10 @@ router.beforeEach((to) => {
   if (to.path !== '/login' && !token) {
     return '/login'
   }
+  // 去main并且有登录，跳转第一个子页面(用于登录后跳转main路径)
+  if (to.path === '/main' && token && firstRoute) {
+    return firstRoute.path
+  }
 })
 // 动态路由两种实现
 // 1.根据角色role动态加载路由
@@ -44,8 +48,6 @@ export function addRoutesWithMenu(menus: any) {
   // 1.获取匹配到的所有的路由
   const routes = mapMenuToRoutes(menus)
   // 2.动态添加到router中
-  console.log(routes)
-
   for (const route of routes) {
     router.addRoute('main', route)
   }

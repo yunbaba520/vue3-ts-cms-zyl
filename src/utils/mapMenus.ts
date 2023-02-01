@@ -1,5 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router'
-
+// 用户第一个菜单对应路由
+export let firstRoute: RouteRecordRaw | undefined = undefined
+// 获取用户菜单对应路由
 export function mapMenuToRoutes(menus: any[]) {
   // 1.加载所有的路由对象
   const localRoutes = loadLocalRoutes()
@@ -10,9 +12,8 @@ export function mapMenuToRoutes(menus: any[]) {
     for (const submenu of menu.children) {
       const menuUrl = submenu.url
       const route = localRoutes.find((item) => item.path === menuUrl)
-      if (route) {
-        finalRoutes.push(route)
-      }
+      if (route) finalRoutes.push(route)
+      if (!firstRoute && route) firstRoute = route
     }
   }
 
@@ -36,7 +37,7 @@ export function mapMenuToRoutes(menus: any[]) {
 
   return finalRoutes
 }
-
+// 获取本地所有路由
 function loadLocalRoutes() {
   // 1.加载所有的模板
   const modules: Record<string, any> = import.meta.glob(
