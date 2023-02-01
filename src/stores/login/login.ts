@@ -15,9 +15,9 @@ interface ILoginState {
 }
 const useLogin = defineStore('login', {
   state: (): ILoginState => ({
-    token: localCache.getCache('login/token') ?? '',
-    userInfo: localCache.getCache('user/info') ?? {},
-    userMenu: localCache.getCache('user/menu') ?? []
+    token: '',
+    userInfo: {},
+    userMenu: []
   }),
   actions: {
     // 登录
@@ -37,10 +37,18 @@ const useLogin = defineStore('login', {
       this.userMenu = userMenuRes.data
       localCache.setCache('user/menu', userMenuRes.data)
       // 动态注册路由
-      addRoutesWithMenu(userMenuRes.data)
+      addRoutesWithMenu(this.userMenu)
 
       // 跳转main页
       router.push('/main')
+    },
+    // 刷新
+    handlerRefresh() {
+      this.token = localCache.getCache('login/token') ?? ''
+      this.userInfo = localCache.getCache('user/info') ?? {}
+      this.userMenu = localCache.getCache('user/menu') ?? []
+      // 动态注册路由
+      addRoutesWithMenu(this.userMenu)
     }
   }
 })

@@ -4,6 +4,7 @@ import App from './App.vue'
 import router from './router'
 import pinia from './stores'
 import registerIcons from './global/register-icons'
+import useLoginStore from './stores/login/login'
 
 // 样式
 import 'normalize.css'
@@ -19,6 +20,8 @@ import './assets/css/index.less'
 
 const app = createApp(App)
 app.use(registerIcons)
-app.use(router)
 app.use(pinia)
+const loginStore = useLoginStore()
+loginStore.handlerRefresh()
+app.use(router)
 app.mount('#app')

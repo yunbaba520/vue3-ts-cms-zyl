@@ -6,6 +6,7 @@
     </div>
     <el-menu
       :collapse="sideIsFold"
+      :default-active="defaultActive"
       unique-opened
       text-color="#b7bdc3"
       active-text-color="#fff"
@@ -34,6 +35,7 @@
 
 <script lang="ts" setup>
 import useLoginStore from '@/stores/login/login'
+import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 defineProps({
   sideIsFold: {
@@ -44,10 +46,21 @@ defineProps({
 // 菜单数据
 const loginStore = useLoginStore()
 const userMenu = loginStore.userMenu
+// 刷新-菜单默认值
+const route = useRoute()
+function mapDefaultMenu() {
+  for (const menu of userMenu) {
+    for (const submenu of menu.children) {
+      if (route.path === submenu.url) return submenu
+    }
+  }
+}
+const currentMenu = mapDefaultMenu()
+const defaultActive = ref(currentMenu.id + '')
 // 点击菜单跳转
-const route = useRouter()
+const router = useRouter()
 function handlerMenuJump(subItem: any) {
-  route.push(subItem.url)
+  router.push(subItem.url)
 }
 </script>
 
