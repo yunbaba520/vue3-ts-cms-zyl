@@ -32,8 +32,8 @@ const useLogin = defineStore('login', {
       const userMenuRes = await getUserMenuById(roleId)
       this.userMenu = userMenuRes.data
       localCache.setCache('user/menu',userMenuRes.data)
-      // 跳转home页
-      router.push('/home')
+      // 跳转main页
+      router.push('/main')
     }
   }
 })

@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <el-container class="home-area">
+  <div class="main">
+    <el-container class="main-area">
       <el-aside :width="isFold ? '60px' : '210px'" class="aside-area">
         <nav-aside :sideIsFold="isFold"></nav-aside>
       </el-aside>
@@ -25,10 +25,10 @@ function handlerIsFoldChange(value: boolean) {
 </script>
 
 <style lang="less" scoped>
-.home {
+.main {
   width: 100%;
   height: 100%;
-  .home-area {
+  .main-area {
     height: 100%;
     .aside-area {
       height: 100%;
