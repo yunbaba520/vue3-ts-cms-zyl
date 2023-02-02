@@ -63,8 +63,6 @@ const breadcrumbArr = computed(() => {
   const menus = loginStore.userMenu
   return mapPathToBreadcrumbs(menus, route.path)
 })
-console.log(breadcrumbArr)
-
 // 退出
 function handlerExit() {
   localCache.removeCache('login/token')
