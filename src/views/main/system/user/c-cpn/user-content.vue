@@ -2,7 +2,7 @@
   <div class="user-content">
     <div class="header">
       <h2>用户列表</h2>
-      <el-button type="primary">新增用户</el-button>
+      <el-button type="primary" @click="handlerAddUser">新增用户</el-button>
     </div>
     <el-table :data="userList" style="width: 100%">
       <el-table-column type="selection" width="55" />
@@ -53,7 +53,7 @@ import useUser from '@/stores/main/system/user'
 import { storeToRefs } from 'pinia'
 import { ref, computed } from 'vue'
 import { formatTimeByUtc } from '@/utils/format'
-
+const emit = defineEmits(['addClick'])
 const userStore = useUser()
 const currentPage = ref(1)
 const pageSize = ref(10)
@@ -92,6 +92,10 @@ function exportFunResetData(params: any) {
   pageSize.value = 10
   searchQueryParams = params
   fetchGetUserList()
+}
+// 点击新增用户
+function handlerAddUser() {
+  emit('addClick')
 }
 // 暴露属性与方法
 defineExpose({ exportFunChangeParams, exportFunResetData })
