@@ -1,11 +1,8 @@
-import gsRequest from "@/service";
+import gsRequest from '@/service'
 
-export function getUserList() {
+export function getUserList(params: any) {
   return gsRequest.post({
-    url:'/users/list',
-    data:{
-      "offset": 0,
-      "size": 10,
-    }
+    url: '/users/list',
+    data: params
   })
 }

@@ -53,14 +53,14 @@ function submit(isRemember: boolean) {
       const name = accountForm.name
       const password = accountForm.password
       // 进行登录逻辑
-      loginStore.loginAction({ name, password }).then(()=>{
+      loginStore.loginAction({ name, password }).then(() => {
         // 表示登录成功
         // 记住账号密码
-        if(isRemember) {
+        if (isRemember) {
           // 记住密码
-          localCache.setCache('login/name',name)
-          localCache.setCache('login/password',password)
-          localCache.setCache('login/isRemember',isRemember)
+          localCache.setCache('login/name', name)
+          localCache.setCache('login/password', password)
+          localCache.setCache('login/isRemember', isRemember)
         } else {
           // 不记住密码
           localCache.removeCache('login/name')
