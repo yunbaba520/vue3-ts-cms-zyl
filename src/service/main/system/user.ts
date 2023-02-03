@@ -20,3 +20,9 @@ export function editUser(id: number, params: any) {
     data: params
   })
 }
+// 删除
+export function deleteUser(id: number) {
+  return gsRequest.delete({
+    url:`/users/${id}`
+  })
+}

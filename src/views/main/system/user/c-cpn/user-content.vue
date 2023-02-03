@@ -30,7 +30,18 @@
       <el-table-column label="操作">
         <template #default="scope">
           <el-button type="primary" link icon="Edit" @click="handlerEditUser(scope.row)">编辑</el-button>
-          <el-button type="danger" link icon="Delete">删除</el-button>
+          <el-popconfirm title="确定要删除此对象吗？" @confirm="handlerDeleteUser(scope.row.id)">
+            <template #reference>
+              <el-button
+                type="danger"
+                link
+                icon="Delete"
+              >
+                删除
+              </el-button>
+
+            </template>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -53,6 +64,7 @@ import useUser from '@/stores/main/system/user'
 import { storeToRefs } from 'pinia'
 import { ref, computed } from 'vue'
 import { formatTimeByUtc } from '@/utils/format'
+import { ElMessage } from 'element-plus';
 const emit = defineEmits(['addClick','editClick'])
 const userStore = useUser()
 const currentPage = ref(1)
@@ -100,6 +112,16 @@ function handlerAddUser() {
 // 编辑
 function handlerEditUser(itemData: any) {
   emit('editClick',itemData)
+}
+// 删除
+async function handlerDeleteUser(id: number) {
+  const res = await userStore.deleteUserAction(id)
+  if (res.code === 0) {
+    ElMessage.success(res.data)
+  } else {
+    ElMessage.error(res.data)
+  }
+  fetchGetUserList()
 }
 // 暴露属性与方法
 defineExpose({ exportFunChangeParams, exportFunResetData })
