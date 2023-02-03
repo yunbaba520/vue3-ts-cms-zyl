@@ -7,6 +7,8 @@ import {
 import type { ILoginAccount } from '@/types'
 import { localCache } from '@/utils/cache'
 import router, { addRoutesWithMenu } from '@/router'
+import useDepartment from '../main/system/department'
+import useRole from '../main/system/role'
 
 interface ILoginState {
   token: string
@@ -38,7 +40,11 @@ const useLogin = defineStore('login', {
       localCache.setCache('user/menu', userMenuRes.data)
       // 动态注册路由
       addRoutesWithMenu(this.userMenu)
-
+      // 获取角色，部门列表
+      const departmentStore = useDepartment()
+      departmentStore.getDepartmentListAction()
+      const roleStore = useRole()
+      roleStore.getRoleListAction()
       // 跳转main页
       router.push('/main')
     },
@@ -47,8 +53,16 @@ const useLogin = defineStore('login', {
       this.token = localCache.getCache('login/token') ?? ''
       this.userInfo = localCache.getCache('user/info') ?? {}
       this.userMenu = localCache.getCache('user/menu') ?? []
-      // 动态注册路由
-      addRoutesWithMenu(this.userMenu)
+      if (this.token&&this.userMenu) {
+        // 动态注册路由
+        addRoutesWithMenu(this.userMenu)
+        // 获取角色，部门列表
+        const departmentStore = useDepartment()
+        departmentStore.getDepartmentListAction()
+        const roleStore = useRole()
+        roleStore.getRoleListAction()
+      }
+
     }
   }
 })

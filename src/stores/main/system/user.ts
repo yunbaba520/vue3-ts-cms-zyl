@@ -1,4 +1,4 @@
-import { getUserList } from '@/service/main/system/user'
+import { addUser, getUserList } from '@/service/main/system/user'
 import { defineStore } from 'pinia'
 
 const useUser = defineStore('user', {
@@ -11,6 +11,11 @@ const useUser = defineStore('user', {
       const res = await getUserList(params)
       this.userList = res.data.list
       this.totalCount = res.data.totalCount
+    },
+    async addUserAction(params: any) {
+      const res = await addUser(params)
+
+      return res
     }
   }
 })

@@ -30,6 +30,7 @@
               :style="{ width: '100%' }"
               v-model="formData.enable"
             >
+              <el-option label="全部" value="" />
               <el-option label="启用" value="1" />
               <el-option label="禁用" value="0" />
             </el-select>
@@ -66,7 +67,7 @@ const formData = reactive({
   name: '',
   realname: '',
   cellphone: '',
-  enable: '1',
+  enable: '',
   createAt: ''
 })
 const formRef = ref<FormInstance>()
@@ -79,6 +80,10 @@ function handlerRefresh() {
 function handlerSearch() {
   emit('searchData', formData)
 }
+
+defineExpose({
+  handlerRefresh
+})
 </script>
 
 <style scoped lang="less">

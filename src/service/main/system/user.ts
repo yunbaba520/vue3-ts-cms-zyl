@@ -6,3 +6,10 @@ export function getUserList(params: any) {
     data: params
   })
 }
+// 新增
+export function addUser(params: any) {
+  return gsRequest.post({
+    url:"/users",
+    data:params
+  })
+}
