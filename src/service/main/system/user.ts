@@ -13,3 +13,10 @@ export function addUser(params: any) {
     data:params
   })
 }
+// 编辑
+export function editUser(id: number, params: any) {
+  return gsRequest.patch({
+    url:`/users/${id}`,
+    data: params
+  })
+}

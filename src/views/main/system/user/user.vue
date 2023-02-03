@@ -8,6 +8,7 @@
     <user-content
       ref="userContentRef"
       @add-click="handlerAddClick"
+      @edit-click="handlerEditClick"
     ></user-content>
     <user-dialog ref="userDialogRef" @refresh-table="handlerRefreshTable"></user-dialog>
   </div>
@@ -29,7 +30,10 @@ function handlerResetData(searchData: any) {
 }
 const userDialogRef = ref<InstanceType<typeof UserDialog>>()
 function handlerAddClick() {
-  userDialogRef.value?.setDialogVisible(true)
+  userDialogRef.value?.setDialogVisible(false)
+}
+function handlerEditClick(itemData: any) {
+  userDialogRef.value?.setDialogVisible(true,itemData)
 }
 function handlerRefreshTable() {
   userSearchRef.value?.handlerRefresh()

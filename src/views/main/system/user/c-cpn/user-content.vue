@@ -28,8 +28,8 @@
         </template>
       </el-table-column>
       <el-table-column label="操作">
-        <template #default>
-          <el-button type="primary" link icon="Edit">编辑</el-button>
+        <template #default="scope">
+          <el-button type="primary" link icon="Edit" @click="handlerEditUser(scope.row)">编辑</el-button>
           <el-button type="danger" link icon="Delete">删除</el-button>
         </template>
       </el-table-column>
@@ -53,7 +53,7 @@ import useUser from '@/stores/main/system/user'
 import { storeToRefs } from 'pinia'
 import { ref, computed } from 'vue'
 import { formatTimeByUtc } from '@/utils/format'
-const emit = defineEmits(['addClick'])
+const emit = defineEmits(['addClick','editClick'])
 const userStore = useUser()
 const currentPage = ref(1)
 const pageSize = ref(10)
@@ -96,6 +96,10 @@ function exportFunResetData(params: any) {
 // 点击新增用户
 function handlerAddUser() {
   emit('addClick')
+}
+// 编辑
+function handlerEditUser(itemData: any) {
+  emit('editClick',itemData)
 }
 // 暴露属性与方法
 defineExpose({ exportFunChangeParams, exportFunResetData })
