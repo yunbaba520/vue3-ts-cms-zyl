@@ -8,7 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BarEchart: typeof import('./src/components/page-echarts/src/bar-echart.vue')['default']
-    BaseEchart: typeof import('./src/components/page-echarts/src/base-echart.vue')['default']
+    BaseEchart: typeof import('./src/components/echarts/src/base-echart.vue')['default']
     CardChart: typeof import('./src/components/card-chart/card-chart.vue')['default']
     CardCount: typeof import('./src/components/card-count/card-count.vue')['default']
     DemoEchart: typeof import('./src/components/page-echarts/src/demo-echart.vue')['default']
