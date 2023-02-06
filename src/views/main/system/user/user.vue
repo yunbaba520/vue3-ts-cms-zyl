@@ -10,7 +10,10 @@
       @add-click="handlerAddClick"
       @edit-click="handlerEditClick"
     ></user-content>
-    <user-dialog ref="userDialogRef" @refresh-table="handlerRefreshTable"></user-dialog>
+    <user-dialog
+      ref="userDialogRef"
+      @refresh-table="handlerRefreshTable"
+    ></user-dialog>
   </div>
 </template>
 
@@ -33,11 +36,10 @@ function handlerAddClick() {
   userDialogRef.value?.setDialogVisible(false)
 }
 function handlerEditClick(itemData: any) {
-  userDialogRef.value?.setDialogVisible(true,itemData)
+  userDialogRef.value?.setDialogVisible(true, itemData)
 }
 function handlerRefreshTable() {
   userSearchRef.value?.handlerRefresh()
-
 }
 </script>
 
