@@ -11,7 +11,6 @@ declare module '@vue/runtime-core' {
     BaseEchart: typeof import('./src/components/echarts/src/base-echart.vue')['default']
     CardChart: typeof import('./src/components/card-chart/card-chart.vue')['default']
     CardCount: typeof import('./src/components/card-count/card-count.vue')['default']
-    DemoEchart: typeof import('./src/components/page-echarts/src/demo-echart.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
